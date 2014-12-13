@@ -89,7 +89,80 @@ shell script, not valid python code at all.
 
 ## Evaluation
 
+This language is so DSL-y that I fell bad calling it a language at all. I realize that almost anything could be a DSL, but this
+is essentially a program that takes a shell script and returns a structure in Minecraft. The user, in my mind at least, is not
+coding at all. Just adjusting a template to suit their needs. In that sense, it is about as far away as possible from a general
+purpose language. Technically, you can create a circuit such that, when executed, runs a Turing machine, but that is very much
+not the intended use of the language. All you can do is build a circuit.
 
+The user input is so straightforward. I am so pleased that I got the input down to creating a single shell script with two
+inputs. I take real enjoyment out of using programs like pip or brew, as they seem to have reduced their user input to the
+barest possible form. I like to think that I have taken on this philosophy successfully. Additionally, I like how little the
+user has to do as far as downloading requirements. In a future version, I may just include a script that installs the necessary
+files, but, aside from that, the user has very little to do. If you haven't caught on, I am really happy at how lazy the user
+can be and still run my code.
+
+SO MANY THINGS could be improved. I mentioned one above, how there could be a script that simply installs the necessary
+packages. Going from there, I could make my program a small python package, where you could essentially type
+
+pip install logicraft
+
+Then run logicraft.generateCircuit(world, expr) inside python. That would be the ultimate ease of use and I'd love to have
+that work. As far as the generated structure goes, it could use a lot of refining. First off, the circuit is built way too
+big, with long expressions taking up WAY more space than they need to. I thought of a fix, but it requires redesigning the
+control flow to build the circuit "bottom-up" so that I know how much space I need for my circuitry. Another issue is the
+fact that users have to toggle the levers to initialize the circuit. There is a way to do this automatically, but it requires
+me knowing the area that the circuit covers. This is possible to do, but I ran out of time to implement it. Next, the levers
+could have signs next to them to indicate which variable they represent. Similar to the previous issue, this is fairly
+easy to implement, but I ran out of time. Finally, I would love to be able to combine input lines together so that the
+circuit
+
+x^~x
+
+has exactly one lever, not two. This, however, requires building bridges between inputs, meaning I have to extend the build
+into the 3rd dimension. This is possible and I have a vague idea of how to do it, but it would take a solid day to work out
+the kinks, and I already had kinks that needed ironing that were much easier to smooth out. All of that aside, the final
+version of this does not differ to wildly from my initial vision. At the VERY beginning I wanted a GUI to let people design
+circuits and place said circuits into Minecraft. In that sense, this is very different, but that was my idea for no more than
+a day before I realized that had already been created.
+
+I never created an evaluation plan... :(
+
+About half of this project was running into trouble. The first issue was in finding a way to programmatically place blocks
+in Minecraft. There were plenty of ways for placing blocks with an external program and its GUI, but programmatically doing
+so was absent. The first solution I found was in something called an MCEdit filter. This is a piece of python code that, when
+applied to a specified region of the world, will generate a design. This would have been very easy for me, as I would just
+create the code and tell the user to download MCEdit, navigate to the appropriate section, select the region themselves, then
+run my code themselves. I felt that was too much work to put on the user. The second idea I had was using a command block, an
+item in the game itself. This is incredibly easy for the user to use, as they simply cut and paste code from my program into
+the block to build the circuit. However, putting this all in one command block requires nested commands of stone riding
+pressure plates riding command blocks, which themselves have nested layers of stone riding...I decided this was too much work
+for me, even if it made the user experience much nicer.
+
+After about 4 hours more of searching, I finally found this small part of MCEdit called pymclevel. It is a programmatic
+interface between python and Minecraft and even has an 'execute' command that will run a text file of commands. This means
+I can just create a text file and be done, while the user simply has to download a package. Great success for all!
+
+After that, I moved onto the problem of parsing. After spending an hour or two wrestling with Scala, I decided, from
+Alejandro's advice, to switch to python packages for parsing. After Thanksgiving dinner, I sat down to write the parser. The
+following night, I had made 0 progress and had gotten a parser stuck in an infinite loop. Turns out python parsers have
+issues with defining and Expr in terms of Expr's. Basically, 12 hours of work down the drain. I came back from break ready to
+spend another 12 hours wrestling with the parsers. I asked one of my friends if he had any advice, and he mentioned the
+Shunting Yard algorithm. An hour later, and I had a fully functioning parser. An hour after that, I had an AST as a list of
+lists in reverse polish notation. 
+
+Finally, I moved on to the non-DSL stage: converting the AST into Minecraft commands. As it turns out, the pymclevel package
+does not install correctly, and reports an error about missing minecraft.yaml. However, I could run it from the command line.
+This meant the user had to specify the path to their pymclevel folder, which felt so unnecessary. After getting it working
+as well as I could, I decided to look into this issue. Turns out that I had to fork the code from github and change setup.py
+to get it to work. But, it did, and I managed to get it working in python itself. This was about 10pm tonight. From
+10:30-11:30, I was desperately trying to figure out why none of the circuits were showing up in Minecraft. As it turns out,
+if you save by quitting from pymclevel and saying you'd like to save, it does not save. You have to save the world, then quit
+and say you would like to save. I'd be upset if I had not had 10 times the issues with a python package for another class.
+
+Sorry for the wall of issues here. This had a lot of bumps along the way, but I am so happy I got it working.
+
+## Th-th-th-that's all folks
 
 
 
