@@ -59,6 +59,35 @@ And that is it. After saving, run sh [NameOfTheShellScript].sh and, in a few mom
 
 ## Language Implementation
 
+The host language I chose is Python. Aside from being very easy to code in (in my opinion, at least), the available code
+for interfacing programmatically with Minecraft is in Python, which made the choice quite easy.
+
+This is very much an external DSL. The user does not come close to executing python code, aside from downloading required
+packages. It provides a window into a small subset of a single python package. I did not want the users to have to have coding
+knowledge, meaning I wanted the user to not use python. This made an external DSL a requirement.
+
+The front-end of this language is very raw. The user has to create a shell script and execute it through the command line. The
+middle-end is probably the scripts I have that handle getting command line arguments and running the appropriate python files.
+The back end is certainly boolToFill.py, which handles all the nitty gritty of parsing the language, creatig an AST, and writing
+very convoluted syntax for building in Minecraft. The only technologies I used were the command line and python packages.
+
+The parsing is handled by an algorithm called <a href="http://en.wikipedia.org/wiki/Shunting-yard_algorithm">Shunting Yard</a>.
+It takes input made up of symbols and operators and organizes them according to precedence rules. If you are curious, check the
+Wikipedia link above for a detailed description. After that, I take the output and parse it into Reverse Polish Notation for
+easier evaluation later.
+
+This parsed product is the internal representation: a list of lists representing precedence order for the various operators and
+their arguments. This is a pseudo-AST, as each list is made up of an operator and two branches, each of which could be more
+operator lists.
+
+From their, the AST is translated into text instructions for building in Minecraft. The structure of this part is a recursive
+function commandify that calls the appropriate builders for AND, OR, and NOT gates. These builders handle the writing of the
+build instructions, then call commandify on their children. As I am writing this, I realize I implemented a type of mutual
+recursion, where each subsequent call reduces the size of the input until we reach a base case. I haven't thought about mutual
+recursion since CS60. As far as differing semantics, the user is simply not writing in Python. The semantics are that of a
+shell script, not valid python code at all.
+
+## Evaluation
 
 
 
