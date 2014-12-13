@@ -6,9 +6,12 @@ The writer.sh and builder.sh are helper scripts to generate the minecraft world.
 
 Example programs are provided in sample1.sh (creates a^~b^~c) and uselessMachine.sh (a^~a :}).
 
-To run this yourself, you must first install pymclevel using these two commands in the terminal
+To run this yourself, you must first install pymclevel using these two commands in the terminal:
+
   pip install -U numpy PyYaml Cython
+  
   pip install git+https://github.com/jashley/pymclevel
+  
 The first command installs required libraries. The second installs the minecraft-python interface. 
 My fork of the code fixes an issue with the .yaml files.
 
