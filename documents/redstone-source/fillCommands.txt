@@ -1,0 +1,14 @@
+load Testara
+fill 1 Player delta -2 -1 -2 1 1 5
+fill 55 Player delta -2 0 -1 1 1 3
+fill 76:5 Player delta -2 0 -2 1 1 1
+fill 76:5 Player delta -2 0 2 1 1 1
+fill 76:1 Player delta -1 -1 0 1 1 1
+fill 93:1 Player delta 0 -1 0 1 1 1
+fill 69:2 Player delta -3 -1 -2 1 1 1
+fill 1 Player delta -5 -1 2 1 1 1
+fill 76:1 Player delta -4 -1 2 1 1 1
+fill 93:1 Player delta -3 -1 2 1 1 1
+fill 69:2 Player delta -6 -1 2 1 1 1
+save
+quit yes
